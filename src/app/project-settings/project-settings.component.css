@@ -1,0 +1,25 @@
+
+.hoverable {
+    cursor: pointer
+}
+
+.delete {
+    color: red
+}
+
+.edit {
+    color: blue;
+
+    
+}
+
+.project-item {
+    margin-bottom: 2%;
+}
+
+.mat-card-title {
+    font-size: medium
+}
+
+.new-project {
+}

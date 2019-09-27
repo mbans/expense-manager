@@ -1,0 +1,109 @@
+ 
+<!-- row for browser and a column (vert) for small device 
+ fxLayoutWrap wrap onto the next row if exceeds max width
+ fxLayoutGap - gap between each item
+-->
+<div fxLayout="column wrap" 
+     fxLayoutGap="2%"
+     fxLayoutAlign="center">
+
+     <!-- Add project button-->
+      <div  *ngIf="!add"
+            fxLayoutGap="2%"
+            fxLayoutAlign="center">
+            <button 
+              mat-button
+              mat-raised-button 
+              (click) = "add = true">Add New Project
+            </button>
+        </div>
+
+        <!-- Form to create new Project-->
+        <!-- The 'center center' align is to center on both the main (vert/horiz) axises-->
+        <div *ngIf="add"
+              fxLayout="column"
+              fxLayoutAlign="center center"   
+              class="new-project">
+
+            <div>
+              <h2>Add New Project</h2>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="center">
+
+                <form [formGroup]="form" 
+                      fxLayoutGap="5px"
+                      fxLayout="column"
+                      #f="ngForm" novalidate
+                      (ngSubmit)="f.form.valid && submit(f.value)" >
+
+                    <mat-form-field>
+                      <input type="text" 
+                              placeholder="Project Name" 
+                              matInput 
+                              formControlName="projectName" 
+                              required>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                      <input type="text" 
+                              placeholder="Users" 
+                              matInput 
+                              formControlName="users">
+                    </mat-form-field>
+                      
+                    <button mat-button 
+                              mat-raised-button class="submit-btn" 
+                            type="submit"
+                            [disabled]="f.form.pristine || f.form.invalid">Add</button>
+
+                      <button mat-button 
+                          mat-raised-button class="submit-btn" 
+                          (click) = "add = false">Cancel</button>
+                </form>
+          </div>
+      </div>
+
+ <!--  The MatCards showing each project       
+       the parent div for the projects
+  -->
+  <div>
+    <div fxLayout="row wrap" 
+         fxLayout.xs="column"
+         fxLayoutGap="0.5%"
+         fxLayoutAlign="center">
+
+        <mat-card class="project-item"
+                 fxFlex="20%" 
+                *ngFor="let project of projectService.projects$ | async">
+            
+            <!-- on xs device display as colum (horiz)-->
+            <mat-card-title   fxLayout.gt-xs="row" fxLayout.xs="column">
+            <span fxFlex="80%">{{project.name}}</span>
+              <!-- edit-->
+              <span fxFlex="10%">
+                  <a class="hoverable edit" (click)="openEditDialog(project)">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                </span>
+                
+                <!-- delete -->
+                <span fxFlex="10%">
+                    <a class="hoverable delete" (click)="openDeleteDialog(project)">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                </span>
+            </mat-card-title>
+      
+          <!-- body -->
+          <div flLayout="column">
+            <div><i>Description:</i></div> 
+            <div>{{project.projectDescription}}</div>
+            <div><i>Users</i></div> 
+            <div>{{project.users}}</div>
+          </div>
+      </mat-card>
+    </div>
+  </div>
+    <!-- end of project container-->
+</div>

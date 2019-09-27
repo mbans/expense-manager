@@ -1,0 +1,56 @@
+<h1 mat-dialog-title>Edit Project {{project.name}}</h1>
+
+<div mat-dialog-content>
+
+  <div fxLayout="column"
+    fxLayoutAlign="center center"   
+    class="new-project">
+
+    <div>
+      <h2>Edit Project</h2>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center">
+
+          <form [formGroup]="form" 
+                fxLayoutGap="5px"
+                fxLayout="column"
+                #f="ngForm" novalidate
+                (ngSubmit)="f.form.valid && submit(f.value)" >
+
+              <mat-form-field>
+                <input type="text" 
+                        placeholder="Project Name" 
+                        matInput 
+                        formControlName="projectName" 
+                        required>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input type="text" 
+                        placeholder="Users" 
+                        matInput 
+                        formControlName="users">
+              </mat-form-field>
+                
+              <div mat-dialog-actions>
+
+                <button mat-button 
+                          mat-raised-button class="submit-btn" 
+                        type="submit"
+                        [disabled]="f.form.pristine || f.form.invalid"
+                        [mat-dialog-close]="data.project">Save
+                </button>
+
+                <button mat-button (click)="onNoClick()">No</button>
+              </div>
+
+                <!-- <button mat-button 
+                    mat-raised-button class="submit-btn" 
+                    (click) = "add = false">Cancel</button>
+                  <button mat-button [mat-dialog-close]="data.project">Save
+                  </button> -->
+          </form>
+    </div>
+  </div>
+</div>

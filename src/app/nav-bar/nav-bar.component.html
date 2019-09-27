@@ -1,0 +1,37 @@
+
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <i  routerLink="/" class="hoverable fas fa-cloud-moon fa-2x"></i>
+        <span class="hoverable" routerLink="/"> expenses</span>
+       
+        <!-- <button *ngIf="!user" mat-button (click)="auth.loginWithGoogle()">Login</button> -->
+       
+        <button *ngIf="user"  mat-button routerLink="/entry"><i class="fas fa-plus"></i></button>
+        <button *ngIf="user" mat-button routerLink="/view"><i class="fas fa-search"></i></button>
+        <button *ngIf="user" mat-button routerLink="/reports"><i class="fas fa-chart-pie"></i></button>
+
+        <!-- Categories -->
+        <button *ngIf="user && user.admin" mat-button routerLink="/admin/categories">Categories (todo)</button>
+        
+        <!-- -->
+        <span *ngIf="user">{{user.displayName}}</span>
+
+        <!-- <span *ngIf="user"><img src="{{user.photoURL}}" alt="Avatar"></span> -->
+        <button *ngIf="user" mat-button (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+
+        <!-- Project Selection -->
+        <mat-form-field *ngIf="user">
+            <mat-select (selectionChange)="switchProject($event.value)">
+              <mat-option *ngFor="let project of projectService.projects$ | async" [value]="project.uid">
+                <span>{{project.name}}</span>
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button *ngIf="user && user.admin" mat-button routerLink="/settings">My Projects</button>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>

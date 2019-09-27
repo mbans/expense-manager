@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Expense</h1>
+
+  <div  mat-dialog-content
+        fxLayout="row"
+        fxLayoutAlign="center"
+        class="view-container">
+
+
+        <!-- FormGroup is used for reactive forms-->
+        <form [formGroup]="form" 
+           fxLayout="column"
+           fxLayoutGap="5px"
+           #f="ngForm" novalidate
+           (ngSubmit)="f.form.valid && submit(f.value)" >
+
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+           <input type="text" placeholder="Shop" matInput [formControl]="category" [matAutocomplete]="auto" required>
+         </mat-form-field>
+           
+         <mat-autocomplete #auto="matAutocomplete">
+           <mat-option *ngFor="let category of categories" [value]="category.name" >{{category.name}}</mat-option>
+         </mat-autocomplete> 
+
+         <mat-form-field>
+           <input type="number" 
+                  matInput placeholder="Amount" 
+                  formControlName="amount">
+          </mat-form-field>
+
+         <mat-form-field class="example-full-width">
+             <textarea formControlName="description" matInput placeholder="What did you buy?"></textarea>
+         </mat-form-field>
+
+           <ng-container *ngIf="expense.photo">
+              <div>
+                  <a target="_blank" href="{{expense.photo}}">View Current Receipt</a> 
+              </div>
+            </ng-container>
+           
+           <input type="file" (change)="onFileSelectedEvent($event)" 
+                                placeholder="Upload photo" 
+                                formControlName="photo">
+                            
+            <!-- On close results in the control going back to the owning 
+                 component which will then save down the expense
+            -->
+            <button mat-button mat-raised-button  
+                    [disabled]="f.form.pristine || f.form.invalid"
+                    [mat-dialog-close]="expense">Save
+              </button>
+
+              <button mat-button (click)="onNoClick()">Cancel</button>
+
+              <mat-progress-bar 
+                  *ngIf="uploadProgress$" color="ascent" mode="determinate"  
+                  [value]="uploadProgress$ | async">
+              </mat-progress-bar> 
+       </form>
+</div>
+
